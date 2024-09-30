@@ -4,64 +4,97 @@ This project is a sample Quarkus application with Prometheus monitoring integrat
 
 ## Prerequisites
 
-- JDK 11+
-- Maven 3.8.1+
+* Java 11 or higher
+* Maven
+* Postman (optional, for testing API endpoints)
 
-## Running the application in dev mode
+## Setup
 
-You can run your application in dev mode that enables live coding using:
-```shell script
-./mvnw compile quarkus:dev
+1. Clone the repository:
+
+```bash
+git clone https://github.com/rslim087a/quarkus-prometheus-monitoring-sample.git
+cd quarkus-prometheus-monitoring-sample
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+2. Build the project:
 
-## Packaging and running the application
-
-The application can be packaged using:
-```shell script
-./mvnw package
-```
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it's not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
-
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
+```bash
+./mvnw clean install
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+## Running the Application
+
+To run the application in development mode, use the following command:
+
+```bash
+./mvnw quarkus:dev
+```
+
+The application will start and be available at `http://localhost:8080`.
 
 ## API Endpoints
 
 The following endpoints are available:
 
-- `GET /`: Root endpoint
-- `POST /items`: Create a new item
-- `GET /items/{item_id}`: Retrieve an item
-- `PUT /items/{item_id}`: Update an item
-- `DELETE /items/{item_id}`: Delete an item
-- `GET /q/metrics`: Prometheus metrics endpoint
+* `GET /`: Root endpoint
+* `POST /items`: Create a new item
+* `GET /items/{item_id}`: Retrieve an item
+* `PUT /items/{item_id}`: Update an item
+* `DELETE /items/{item_id}`: Delete an item
+* `GET /q/metrics`: Prometheus metrics endpoint
+
+## Testing with Postman
+
+A Postman collection is provided for testing the API endpoints. To use it:
+
+1. Open Postman
+2. Click on "Import" and select the `quarkus-metrics-postman-collection.json` file
+3. The collection "Quarkus Metrics App" will be added to your Postman workspace
+4. You can now use the following requests to test each endpoint:
+   * Root: GET request to test the root endpoint
+   * Create Item: POST request to create a new item
+   * Get Item: GET request to retrieve an item by ID
+   * Update Item: PUT request to update an existing item
+   * Delete Item: DELETE request to remove an item
+   * Get Metrics: GET request to fetch Prometheus metrics
 
 ## Monitoring
 
 The application exposes Prometheus metrics at the `/q/metrics` endpoint. You can configure your Prometheus server to scrape these metrics for monitoring.
 
-## Testing with Postman
+To view the raw metrics, open a web browser and go to:
 
-A Postman collection is provided for testing the API endpoints. Import the `Quarkus Metrics App.postman_collection.json` file into Postman to use it.
+```
+http://localhost:8080/q/metrics
+```
 
-## Related Guides
+## Development
 
-- RESTEasy Reactive ([guide](https://quarkus.io/guides/resteasy-reactive)): A JAX-RS implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-- Micrometer Registry Prometheus ([guide](https://quarkus.io/guides/micrometer)): Enable Prometheus support for Micrometer
+If you want to make changes to the project:
 
-## Provided Code
+1. Make your changes to the `MetricsResource.java` file or other relevant files.
+2. The application will automatically reload if you're running in dev mode.
+3. If not in dev mode, rebuild the project using `./mvnw clean install` and restart the application.
 
-### RESTEasy Reactive
+## Troubleshooting
 
-Easily start your Reactive RESTful Web Services
+If you encounter any issues:
 
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+1. Ensure you're using Java 11 or higher:
+
+```bash
+java -version
+```
+
+2. Make sure all dependencies are correctly installed:
+
+```bash
+./mvnw dependency:resolve
+```
+
+3. Check that you're in the correct directory and running the commands from the project root.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
